@@ -1,0 +1,27 @@
+﻿<Page
+    x:Class="FNSMosaic.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FNSMosaic"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Image x:Name="inputImage" Stretch="Uniform"></Image>
+        <Button VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="15" Width="200" Height="45" Click="Button_Click">Select Image</Button>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Result:" FontSize="20"/>
+            <Image x:Name="outputImage" Grid.Row="1" Stretch="Uniform"/>
+        </Grid>
+    </Grid>
+</Page>

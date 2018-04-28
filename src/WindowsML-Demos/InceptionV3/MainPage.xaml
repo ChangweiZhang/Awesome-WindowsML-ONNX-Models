@@ -1,0 +1,46 @@
+﻿<Page
+    x:Class="InceptionV3.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:InceptionV3"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Image x:Name="inputImage" Stretch="Uniform"></Image>
+        <Button VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="15" Width="200" Height="45" Click="Button_Click">Select Image</Button>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Margin="15" HorizontalAlignment="Center" Orientation="Horizontal">
+                <TextBlock Text="Result:" VerticalAlignment="Center"/>
+                <TextBlock  VerticalAlignment="Center" Foreground="DarkRed" x:Name="outputText" Margin="15" FontSize="30" TextWrapping="Wrap"/>
+            </StackPanel>
+            <ListView HorizontalAlignment="Center" Margin="10" x:Name="resultList" Grid.Row="1" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="Stretch" MinWidth="240">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Label}"/>
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Column="1">
+                                <TextBlock  FontWeight="Bold"  Text="{Binding Result}"/>
+                                <TextBlock Text="%" FontWeight="Bold"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </Grid>
+</Page>
