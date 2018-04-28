@@ -53,9 +53,11 @@ namespace InceptionV3
 
                         try
                         {
+                            var startTime = DateTime.Now;
                             var res = await model.EvaluateAsync(input) as Inceptionv3ModelOutput;
                             if (res != null)
                             {
+                                evaluateTimeText.Text = (DateTime.Now - startTime).TotalSeconds.ToString();
                                 outputText.Text = res.classLabel.FirstOrDefault();
                                 var results = new List<LabelResult>();
                                 foreach (var kv in res.classLabelProbs)
