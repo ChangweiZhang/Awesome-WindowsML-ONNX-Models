@@ -1,4 +1,5 @@
-﻿namespace WindowsMLDemos.Common
+﻿using System;
+namespace WindowsMLDemos.Common
 {
     public class LabelResult
     {
