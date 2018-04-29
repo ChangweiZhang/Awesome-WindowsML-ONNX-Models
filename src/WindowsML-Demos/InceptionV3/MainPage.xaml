@@ -13,9 +13,17 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
         <Image x:Name="inputImage" Stretch="Uniform"></Image>
-        <Button VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="15" Width="200" Height="45" Click="Button_Click">Select Image</Button>
-        <Grid Grid.Column="1">
+        <CaptureElement Name="PreviewControl" Stretch="Uniform"/>
+        <Grid Grid.Row="1">
+            <Button VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="15" Width="200" Height="45" Click="Button_Click">Select Image</Button>
+            <Button x:Name="captureBtn" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="15" Width="200" Height="45" Click="captureBtn_Click">Real-Time Capture</Button>
+        </Grid>
+        <Grid Grid.RowSpan="2" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
