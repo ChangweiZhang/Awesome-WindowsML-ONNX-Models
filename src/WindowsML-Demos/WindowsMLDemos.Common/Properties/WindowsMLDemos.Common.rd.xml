@@ -28,6 +28,6 @@
   <Library Name="WindowsMLDemos.Common">
 
   	<!-- add directives for your library here -->
-
+    <Type Name="System.Collections.Generic.IEnumerable{}" MarshalObject="Required All"/>
   </Library>
 </Directives>

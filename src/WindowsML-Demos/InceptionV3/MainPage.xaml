@@ -5,6 +5,7 @@
     xmlns:local="using:InceptionV3"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:control="using:WindowsMLDemos.Common.UI"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -15,14 +16,8 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Image x:Name="inputImage" Stretch="Uniform"></Image>
-        <CaptureElement Name="PreviewControl" Stretch="Uniform"/>
-        <Grid Grid.Row="1">
-            <Button VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="15" Width="200" Height="45" Click="Button_Click">Select Image</Button>
-            <Button x:Name="captureBtn" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="15" Width="200" Height="45" Click="captureBtn_Click">Real-Time Capture</Button>
-        </Grid>
+        <control:ImagePickerControl x:Name="previewControl" PreviewInterval="3" ImagePreviewReceived="ImagePickerControl_ImagePreviewReceived" ImageReceived="ImagePickerControl_ImageReceived"/>
         <Grid Grid.RowSpan="2" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
+using Windows.Media;
+using Windows.Media.MediaProperties;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
@@ -9,6 +11,66 @@ namespace WindowsMLDemos.Common.Helper
 {
     public class ImageHelper
     {
+        /// <summary>
+        /// resize video frame with specifical size
+        /// </summary>
+        /// <param name="frame"></param>
+        /// <param name="targetWidth"></param>
+        /// <param name="targetHeight"></param>
+        /// <returns></returns>
+        public async static Task<VideoFrame> ResizeVideoFrameAsync(VideoFrame frame, VideoEncodingProperties encodingProperties, int targetWidth, int targetHeight)
+        {
+            if (frame != null)
+            {
+                var destFrame = new VideoFrame(BitmapPixelFormat.Bgra8, targetWidth, targetWidth);
+
+                var sourceWidth = 0u;
+                var sourceHeight = 0u;
+                if (encodingProperties != null)
+                {
+                    sourceHeight = encodingProperties.Height;
+                    sourceWidth = encodingProperties.Width;
+                }
+                else
+                {
+                    if (frame.SoftwareBitmap != null)
+                    {
+                        sourceHeight = (uint)frame.SoftwareBitmap.PixelHeight;
+                        sourceWidth = (uint)frame.SoftwareBitmap.PixelWidth;
+                    }
+                    else
+                    {
+                        sourceHeight = (uint)frame.Direct3DSurface.Description.Height;
+                        sourceWidth = (uint)frame.Direct3DSurface.Description.Width;
+                    }
+                }
+
+                var scaleHeigth = targetHeight;
+                var scaleWidth = targetWidth;
+                var heightOffset = 0;
+                var widthOffset = 0;
+                if (sourceHeight > sourceWidth)
+                {
+                    scaleHeigth = (int)sourceWidth * targetHeight / targetWidth;
+                    heightOffset = (int)(sourceHeight - scaleHeigth) / 2;
+                }
+                else
+                {
+                    scaleWidth = (int)sourceHeight * targetWidth / targetHeight;
+                    widthOffset = (int)(sourceWidth - scaleWidth) / 2;
+                }
+
+                await frame.CopyToAsync(destFrame, new BitmapBounds
+                {
+                    X = (uint)widthOffset,
+                    Y = (uint)heightOffset,
+                    Height = (uint)scaleHeigth,
+                    Width = (uint)scaleWidth
+                }, null);
+                return destFrame;
+            }
+            return null;
+        }
         /// <summary>
         /// pick up a image
         /// </summary>

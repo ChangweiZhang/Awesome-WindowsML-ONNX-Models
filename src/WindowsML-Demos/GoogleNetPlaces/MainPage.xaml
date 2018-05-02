@@ -5,6 +5,7 @@
     xmlns:local="using:GoogleNetPlaces"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:control="using:WindowsMLDemos.Common.UI"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -13,8 +14,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Image x:Name="inputImage" Stretch="Uniform"></Image>
-        <Button VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="15" Width="200" Height="45" Click="Button_Click">Select Image</Button>
+        <control:ImagePickerControl x:Name="previewControl" ImageTargetHeight="224" ImageTargetWidth="224" PreviewInterval="3" ImageReceived="ImagePickerControl_ImageReceived" ImagePreviewReceived="ImagePickerControl_ImagePreviewReceived"/>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
