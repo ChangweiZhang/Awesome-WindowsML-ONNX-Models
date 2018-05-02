@@ -17,7 +17,7 @@ namespace FNSMosaic
         public VideoFrame outputImage { get; set; }
         public FNSMosaicModelOutput()
         {
-            this.outputImage = VideoFrame.CreateWithSoftwareBitmap(new Windows.Graphics.Imaging.SoftwareBitmap(Windows.Graphics.Imaging.BitmapPixelFormat.Bgra8, 720, 720));
+            this.outputImage = new VideoFrame(Windows.Graphics.Imaging.BitmapPixelFormat.Bgra8, 720, 720);//VideoFrame.CreateWithSoftwareBitmap(new Windows.Graphics.Imaging.SoftwareBitmap(Windows.Graphics.Imaging.BitmapPixelFormat.Bgra8, 720, 720));
         }
     }
 

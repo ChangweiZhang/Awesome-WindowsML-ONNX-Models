@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InceptionV3", "InceptionV3\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FNSMosaic", "FNSMosaic\FNSMosaic.csproj", "{C364718F-A0F9-4D48-B59A-FAC6DFEDD5CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestureAI", "GestureAI\GestureAI.csproj", "{E75FA547-B474-4009-8469-FB4FA2506374}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,26 @@ Global
 		{C364718F-A0F9-4D48-B59A-FAC6DFEDD5CA}.Release|x86.ActiveCfg = Release|x86
 		{C364718F-A0F9-4D48-B59A-FAC6DFEDD5CA}.Release|x86.Build.0 = Release|x86
 		{C364718F-A0F9-4D48-B59A-FAC6DFEDD5CA}.Release|x86.Deploy.0 = Release|x86
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Debug|ARM.ActiveCfg = Debug|ARM
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Debug|ARM.Build.0 = Debug|ARM
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Debug|ARM.Deploy.0 = Debug|ARM
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Debug|x64.ActiveCfg = Debug|x64
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Debug|x64.Build.0 = Debug|x64
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Debug|x64.Deploy.0 = Debug|x64
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Debug|x86.ActiveCfg = Debug|x86
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Debug|x86.Build.0 = Debug|x86
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Debug|x86.Deploy.0 = Debug|x86
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Release|Any CPU.ActiveCfg = Release|x86
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Release|ARM.ActiveCfg = Release|ARM
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Release|ARM.Build.0 = Release|ARM
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Release|ARM.Deploy.0 = Release|ARM
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Release|x64.ActiveCfg = Release|x64
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Release|x64.Build.0 = Release|x64
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Release|x64.Deploy.0 = Release|x64
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Release|x86.ActiveCfg = Release|x86
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Release|x86.Build.0 = Release|x86
+		{E75FA547-B474-4009-8469-FB4FA2506374}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
