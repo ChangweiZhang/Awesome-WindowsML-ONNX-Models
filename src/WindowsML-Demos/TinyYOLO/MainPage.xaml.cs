@@ -179,7 +179,7 @@ namespace TinyYOLO
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
              {
-                 await EvaluteImageAsync(e.PreviewImage,false);
+                 await EvaluteImageAsync(e.PreviewImage,e.IsFileImage);
              });
         }
     }

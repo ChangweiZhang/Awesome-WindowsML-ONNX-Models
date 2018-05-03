@@ -14,7 +14,14 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>-->
-        <control:ImagePickerControl x:Name="previewControl" ImageTargetHeight="416" ImageTargetWidth="416" PreviewInterval="1" ImageReceived="ImagePickerControl_ImageReceived" ImagePreviewReceived="previewControl_ImagePreviewReceived"/>
+        <control:ImagePickerControl 
+            x:Name="previewControl" 
+            ImageTargetHeight="416" 
+            ImageTargetWidth="416" 
+            PreviewInterval="1" 
+            WideImage="True"
+            ImageReceived="ImagePickerControl_ImageReceived" 
+            ImagePreviewReceived="previewControl_ImagePreviewReceived"/>
         <!--<Canvas>
             <Rectangle Width="100" Height="100" 
                        Fill="Transparent" 

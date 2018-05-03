@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Graphics.Display;
+using Windows.Graphics.Imaging;
+using Windows.Media;
 using Windows.Media.Capture;
 using Windows.Media.MediaProperties;
 using Windows.System.Display;
@@ -29,6 +31,19 @@ namespace WindowsMLDemos.Common.UI
             get;
             private set;
         }
+
+
+
+        public bool WideImage
+        {
+            get { return (bool)GetValue(WideImageProperty); }
+            set { SetValue(WideImageProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for WideImage.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty WideImageProperty =
+            DependencyProperty.Register("WideImage", typeof(bool), typeof(ImagePickerControl), new PropertyMetadata(false));
+
 
         public string EvalutionTime
         {
@@ -123,16 +138,27 @@ namespace WindowsMLDemos.Common.UI
 
                     using (var tempStream = fs.CloneStream())
                     {
-                        var softImg = await ImageHelper.ResizeImageAsync(tempStream, ImageTargetWidth, ImageTargetHeight);
-
+                        SoftwareBitmap softImg;
+                        if (WideImage)
+                        {
+                            softImg = await ImageHelper.GetImageAsync(tempStream);
+                        }
+                        else
+                        {
+                            softImg = await ImageHelper.ResizeImageAsync(tempStream, ImageTargetWidth, ImageTargetHeight);
+                        }
                         var img = new SoftwareBitmapSource();
-                        await img.SetBitmapAsync(softImg);
+                        await img.SetBitmapAsync(SoftwareBitmap.Convert(softImg, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore));
                         inputImage.Source = img;
 
 
-                        if (ImageReceived != null)
+                        //if (ImageReceived != null)
+                        //{
+                        //    ImageReceived(this, new ImageReceivedEventArgs(softImg));
+                        //}
+                        if (ImagePreviewReceived != null)
                         {
-                            ImageReceived(this, new ImageReceivedEventArgs(softImg));
+                            ImagePreviewReceived(this, new ImagePreviewReceivedEventArgs(VideoFrame.CreateWithSoftwareBitmap(softImg), true));
                         }
                     }
                 }
@@ -150,6 +176,7 @@ namespace WindowsMLDemos.Common.UI
                 var targetHeight = ImageTargetHeight;
                 try
                 {
+                    var isWideImage = WideImage;
                     timer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
                     {
                         if (mediaCapture != null)
@@ -170,10 +197,28 @@ namespace WindowsMLDemos.Common.UI
                                 //    await mediaCapture.VideoDeviceController.SetMediaStreamPropertiesAsync(MediaStreamType.VideoPreview, previewProperties);
                                 //}
                                 // Get information about the preview
-                                var previewFrame = await mediaCapture.GetPreviewFrameAsync();
+                                VideoFrame previewFrame;
+                                if (isWideImage)
+                                {
+                                    var wideFrame = new VideoFrame(Windows.Graphics.Imaging.BitmapPixelFormat.Bgra8, targetWidth, targetHeight);
+                                    previewFrame = await mediaCapture.GetPreviewFrameAsync(wideFrame);
+                                    previewFrame = wideFrame;
+                                }
+                                else
+                                {
+                                    previewFrame = await mediaCapture.GetPreviewFrameAsync();
+                                }
                                 if (previewFrame != null)
                                 {
-                                    var resizedFrame = await ImageHelper.ResizeVideoFrameAsync(previewFrame, previewProperties, targetWidth, targetHeight);
+                                    VideoFrame resizedFrame;
+                                    if (isWideImage)
+                                    {
+                                        resizedFrame = previewFrame;
+                                    }
+                                    else
+                                    {
+                                        resizedFrame = await ImageHelper.ResizeVideoFrameAsync(previewFrame, previewProperties, targetWidth, targetHeight);
+                                    }
 
                                     if (ImagePreviewReceived != null)
                                     {
