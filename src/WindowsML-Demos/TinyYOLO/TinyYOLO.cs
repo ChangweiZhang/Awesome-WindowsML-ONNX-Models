@@ -33,6 +33,12 @@ namespace TinyYOLO
 
     public sealed class TinyYOLOModelModel : IMachineLearningModel
     {
+        public List<string> LabelsInChinese = new List<string>
+        {
+            "飞机","自行车","鸟","船","瓶子","大巴","小汽车","猫",
+            "椅子","牛","餐桌","狗","马","摩托车","人",
+            "盆栽","羊","沙发","列车","电视显示器"
+        };
         public List<string> Labels = new List<string> {
           "aeroplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat",
           "chair", "cow", "diningtable", "dog", "horse", "motorbike", "person",
