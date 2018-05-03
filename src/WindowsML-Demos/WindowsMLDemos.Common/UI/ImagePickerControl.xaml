@@ -17,6 +17,8 @@
         </Grid.RowDefinitions>
         <Image x:Name="inputImage" Stretch="Uniform"></Image>
         <CaptureElement Name="PreviewControl" Stretch="Uniform"/>
+        <Canvas x:Name="previewCanvas" Canvas.ZIndex="100">
+        </Canvas>
         <Grid Grid.Row="1">
             <Button VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="15" Width="200" Height="45" Click="Button_Click">Select Image</Button>
             <Button x:Name="captureBtn" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="15" Width="200" Height="45" Click="captureBtn_Click">Real-Time Capture</Button>

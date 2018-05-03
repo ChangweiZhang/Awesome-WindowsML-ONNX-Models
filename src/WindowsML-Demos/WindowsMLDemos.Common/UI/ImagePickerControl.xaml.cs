@@ -17,7 +17,18 @@ namespace WindowsMLDemos.Common.UI
 {
     public sealed partial class ImagePickerControl : UserControl
     {
-
+        public Canvas DetectorCanvas
+        {
+            get
+            {
+                return previewCanvas;
+            }
+        }
+        public VideoEncodingProperties EncodingProperties
+        {
+            get;
+            private set;
+        }
 
         public string EvalutionTime
         {
@@ -109,12 +120,15 @@ namespace WindowsMLDemos.Common.UI
             {
                 using (var fs = await file.OpenAsync(Windows.Storage.FileAccessMode.ReadWrite))
                 {
-                    var img = new BitmapImage();
-                    await img.SetSourceAsync(fs);
-                    inputImage.Source = img;
+
                     using (var tempStream = fs.CloneStream())
                     {
                         var softImg = await ImageHelper.ResizeImageAsync(tempStream, ImageTargetWidth, ImageTargetHeight);
+
+                        var img = new SoftwareBitmapSource();
+                        await img.SetBitmapAsync(softImg);
+                        inputImage.Source = img;
+
 
                         if (ImageReceived != null)
                         {
@@ -134,33 +148,53 @@ namespace WindowsMLDemos.Common.UI
             {
                 var targetWidth = ImageTargetWidth;
                 var targetHeight = ImageTargetHeight;
-                timer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
+                try
                 {
-                    if (mediaCapture != null)
+                    timer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
                     {
-                        try
+                        if (mediaCapture != null)
                         {
-                            // Get information about the preview
-                            var previewProperties = mediaCapture.VideoDeviceController.GetMediaStreamProperties(MediaStreamType.VideoPreview) as VideoEncodingProperties;
-                            var previewFrame = await mediaCapture.GetPreviewFrameAsync();
-                            if (previewFrame != null)
+                            try
                             {
-                                var resizedFrame = await ImageHelper.ResizeVideoFrameAsync(previewFrame, previewProperties, targetWidth, targetHeight);
-                                if (ImagePreviewReceived != null)
+
+                                var previewProperties = mediaCapture.VideoDeviceController.GetMediaStreamProperties(MediaStreamType.VideoPreview) as VideoEncodingProperties;
+                                if (previewProperties != null)
                                 {
-                                    ImagePreviewReceived(this, new ImagePreviewReceivedEventArgs(resizedFrame));
+                                    EncodingProperties = previewProperties;
                                 }
+                                //if (previewProperties.Width != (uint)ImageTargetWidth &&
+                                //previewProperties.Height != (uint)ImageTargetHeight)
+                                //{
+                                //    previewProperties.Width = (uint)ImageTargetWidth;
+                                //    previewProperties.Height = (uint)ImageTargetHeight;
+                                //    await mediaCapture.VideoDeviceController.SetMediaStreamPropertiesAsync(MediaStreamType.VideoPreview, previewProperties);
+                                //}
+                                // Get information about the preview
+                                var previewFrame = await mediaCapture.GetPreviewFrameAsync();
+                                if (previewFrame != null)
+                                {
+                                    var resizedFrame = await ImageHelper.ResizeVideoFrameAsync(previewFrame, previewProperties, targetWidth, targetHeight);
+
+                                    if (ImagePreviewReceived != null)
+                                    {
+                                        ImagePreviewReceived(this, new ImagePreviewReceivedEventArgs(resizedFrame));
+                                    }
+                                }
+
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine(ex.ToString());
                             }
 
                         }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine(ex.ToString());
-                        }
-
-                    }
-                }, TimeSpan.FromSeconds(PreviewInterval));
-                await StartPreviewAsync();
+                    }, TimeSpan.FromSeconds(PreviewInterval));
+                    await StartPreviewAsync();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.ToString());
+                }
             }
         }
 
@@ -185,6 +219,7 @@ namespace WindowsMLDemos.Common.UI
             try
             {
                 PreviewControl.Source = mediaCapture;
+
                 await mediaCapture.StartPreviewAsync();
                 isPreviewing = true;
             }
