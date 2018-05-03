@@ -139,14 +139,14 @@ namespace TinyYOLO
             {
                 canvas.Children.Clear();
 
-                var border = new Rectangle();
-                border.Width = 419 * aspect;
-                border.Height = 419 * aspect;
-                Canvas.SetLeft(border, x);
-                Canvas.SetTop(border, y);
-                border.Stroke = LineBrush;
-                border.StrokeThickness = 2;
-                canvas.Children.Add(border);
+                //var border = new Rectangle();
+                //border.Width = 419 * aspect;
+                //border.Height = 419 * aspect;
+                //Canvas.SetLeft(border, x);
+                //Canvas.SetTop(border, y);
+                //border.Stroke = LineBrush;
+                //border.StrokeThickness = 2;
+                //canvas.Children.Add(border);
 
                 foreach (var box in boxes)
                 {
@@ -165,7 +165,7 @@ namespace TinyYOLO
                     var titleText = new TextBlock();
                     titleText.Foreground = LabelBrush;
                     titleText.FontSize = 18;
-                    titleText.Margin = new Thickness(5,0,5,0);
+                    titleText.Margin = new Thickness(10,1,10,1);
                     titleText.Text = $"{model.Labels[box.ClassIndex]}  {(float)Math.Round(box.Score * 100, 2)}";
                     Canvas.SetLeft(titleBorder, box.Rect.X * aspect + x);
                     Canvas.SetTop(titleBorder, box.Rect.Y * aspect + y - 25);
