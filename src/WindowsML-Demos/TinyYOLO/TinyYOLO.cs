@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.Media;
-using Windows.Storage;
 using Windows.AI.MachineLearning.Preview;
-using WindowsMLDemos.Common;
 using Windows.Foundation;
+using Windows.Media;
+using WindowsMLDemos.Common;
 using WindowsMLDemos.Common.Helper;
-using System.Linq;
 // TinyYOLOModel
 
 namespace TinyYOLO
@@ -33,12 +31,6 @@ namespace TinyYOLO
 
     public sealed class TinyYOLOModelModel : IMachineLearningModel
     {
-        public List<string> LabelsInChinese = new List<string>
-        {
-            "飞机","自行车","鸟","船","瓶子","大巴","小汽车","猫",
-            "椅子","牛","餐桌","狗","马","摩托车","人",
-            "盆栽","羊","沙发","列车","电视显示器"
-        };
         public List<string> Labels = new List<string> {
           "aeroplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat",
           "chair", "cow", "diningtable", "dog", "horse", "motorbike", "person",
@@ -222,7 +214,11 @@ namespace TinyYOLO
                             {
                                 active[j] = false;
                                 numActive -= 1;
-                                if (numActive <= 0) { shouldBreak = true; }
+                                if (numActive <= 0)
+                                {
+                                    shouldBreak = true;
+                                    break;
+                                }
                             }
                         }
                     }
@@ -246,8 +242,8 @@ namespace TinyYOLO
 
             var intersectionMinX = Max(a.X, b.X);
             var intersectionMinY = Max(a.Y, b.Y);
-            var intersectionMaxX = Min(a.X, b.Y);
-            var intersectionMaxY = Min(a.Y, b.Y);
+            var intersectionMaxX = Min(a.X + a.Width, b.X + b.Width);
+            var intersectionMaxY = Min(a.Y + a.Height, b.Y + b.Height);
             var intersectionArea = Max(intersectionMaxY - intersectionMinY, 0) *
                                    Max(intersectionMaxX - intersectionMinX, 0);
             return (float)(intersectionArea / (areaA + areaB - intersectionArea));
