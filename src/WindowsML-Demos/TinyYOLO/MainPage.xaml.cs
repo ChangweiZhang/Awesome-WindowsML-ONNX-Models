@@ -1,24 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Media;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
-using WindowsMLDemos.Common;
 using WindowsMLDemos.Common.Helper;
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -51,13 +40,7 @@ namespace TinyYOLO
             }
         }
 
-        private async void ImagePickerControl_ImageReceived(object sender, WindowsMLDemos.Common.UI.ImageReceivedEventArgs e)
-        {
-
-            await EvaluteImageAsync(VideoFrame.CreateWithSoftwareBitmap(e.PickedImage),true);
-        }
-
-        private async Task EvaluteImageAsync(VideoFrame videoFrame,bool isImage)
+        private async Task EvaluteImageAsync(VideoFrame videoFrame, bool isImage)
         {
             try
             {
@@ -80,12 +63,10 @@ namespace TinyYOLO
                 var res = await model.EvaluateAsync(input) as TinyYOLOModelModelOutput;
                 if (res != null)
                 {
-
                     var boxes = model.ComputeBoundingBoxes(res.grid);
-                    await DrawDetectedObjectRectAsync(boxes,isImage);
+                    await DrawDetectedObjectRectAsync(boxes, isImage);
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
-
                         previewControl.EvalutionTime = (DateTime.Now - startTime).TotalSeconds.ToString();
                     });
                 }
@@ -96,10 +77,10 @@ namespace TinyYOLO
             }
         }
 
-        private async Task DrawDetectedObjectRectAsync(List<Prediction> boxes, bool isImage,int width=419,int height=419)
+        private async Task DrawDetectedObjectRectAsync(List<Prediction> boxes, bool isImage, int width = 419, int height = 419)
         {
             var canvas = previewControl.DetectorCanvas;
-            float sourceAspect=1f;
+            float sourceAspect = 1f;
             if (isImage)
             {
                 sourceAspect = height * 1f / width;
@@ -138,7 +119,6 @@ namespace TinyYOLO
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
             {
                 canvas.Children.Clear();
-
                 //var border = new Rectangle();
                 //border.Width = 419 * aspect;
                 //border.Height = 419 * aspect;
@@ -165,7 +145,7 @@ namespace TinyYOLO
                     var titleText = new TextBlock();
                     titleText.Foreground = LabelBrush;
                     titleText.FontSize = 18;
-                    titleText.Margin = new Thickness(10,1,10,1);
+                    titleText.Margin = new Thickness(10, 1, 10, 1);
                     titleText.Text = $"{model.Labels[box.ClassIndex]}  {(float)Math.Round(box.Score * 100, 2)}";
                     Canvas.SetLeft(titleBorder, box.Rect.X * aspect + x);
                     Canvas.SetTop(titleBorder, box.Rect.Y * aspect + y - 25);
@@ -179,7 +159,7 @@ namespace TinyYOLO
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
              {
-                 await EvaluteImageAsync(e.PreviewImage,e.IsFileImage);
+                 await EvaluteImageAsync(e.PreviewImage, e.IsFileImage);
              });
         }
     }

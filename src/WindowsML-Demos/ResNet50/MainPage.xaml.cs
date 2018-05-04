@@ -7,16 +7,17 @@ using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 using WindowsMLDemos.Common;
 using WindowsMLDemos.Common.Helper;
+
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
-namespace GoogleNetPlaces
+namespace ResNet50
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        GoogLeNetPlacesModelModel model;
+        ResNet50Model model;
         public MainPage()
         {
             this.InitializeComponent();
@@ -29,31 +30,31 @@ namespace GoogleNetPlaces
                 await EvaluteImageAsync(e.PreviewImage);
             });
         }
-
         private async Task EvaluteImageAsync(VideoFrame videoFrame)
         {
-            var startTime = DateTime.Now;
-            if (model == null)
-            {
-                var modelFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Model/GoogLeNetPlaces.onnx"));
-                if (modelFile != null)
-                {
-                    model = new GoogLeNetPlacesModelModel();
-                    await MLHelper.CreateModelAsync(modelFile, model);
-                }
-            }
-            var input = new GoogLeNetPlacesModelModelInput()
-            {
-                sceneImage = videoFrame
-            };
-
             try
             {
-                var res = await model.EvaluateAsync(input) as GoogLeNetPlacesModelModelOutput;
+                var startTime = DateTime.Now;
+                if (model == null)
+                {
+                    var modelFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Model/Resnet50.onnx"));
+                    if (modelFile != null)
+                    {
+                        model = new ResNet50Model();
+                        await MLHelper.CreateModelAsync(modelFile, model);
+                    }
+                }
+
+                var input = new ResNet50ModelInput()
+                {
+                    image = videoFrame
+                };
+
+                var res = await model.EvaluateAsync(input) as ResNet50ModelOutput;
                 if (res != null)
                 {
                     var results = new List<LabelResult>();
-                    foreach (var kv in res.sceneLabelProbs)
+                    foreach (var kv in res.classLabelProbs)
                     {
                         results.Add(new LabelResult
                         {
@@ -66,11 +67,11 @@ namespace GoogleNetPlaces
                         return p2.Result.CompareTo(p1.Result);
                     });
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
-                     {
-                         outputText.Text = res.sceneLabel.FirstOrDefault();
-                         resultList.ItemsSource = results;
-                         previewControl.EvalutionTime = (DateTime.Now - startTime).TotalSeconds.ToString();
-                     });
+                    {
+                        previewControl.EvalutionTime = (DateTime.Now - startTime).TotalSeconds.ToString();
+                        outputText.Text = res.classLabel.FirstOrDefault();
+                        resultList.ItemsSource = results;
+                    });
                 }
             }
             catch (Exception ex)
