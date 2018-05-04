@@ -36,12 +36,6 @@ namespace InceptionV3
                  await EvaluteImageAsync(e.PreviewImage);
              });
         }
-
-        private async void ImagePickerControl_ImageReceived(object sender, WindowsMLDemos.Common.UI.ImageReceivedEventArgs e)
-        {
-            var softImg = e.PickedImage;
-            await EvaluteImageAsync(VideoFrame.CreateWithSoftwareBitmap(softImg));
-        }
         private async Task EvaluteImageAsync(VideoFrame videoFrame)
         {
             try

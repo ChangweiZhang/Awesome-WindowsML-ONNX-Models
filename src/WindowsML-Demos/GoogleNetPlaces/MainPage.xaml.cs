@@ -24,12 +24,6 @@ namespace GoogleNetPlaces
             this.InitializeComponent();
         }
 
-        private async void ImagePickerControl_ImageReceived(object sender, WindowsMLDemos.Common.UI.ImageReceivedEventArgs e)
-        {
-            var softImg = e.PickedImage;
-            await EvaluteImageAsync(VideoFrame.CreateWithSoftwareBitmap(softImg));
-        }
-
         private async void ImagePickerControl_ImagePreviewReceived(object sender, WindowsMLDemos.Common.UI.ImagePreviewReceivedEventArgs e)
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>

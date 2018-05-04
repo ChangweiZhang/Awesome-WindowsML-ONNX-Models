@@ -20,7 +20,6 @@
             ImageTargetWidth="416" 
             PreviewInterval="1" 
             WideImage="True"
-            ImageReceived="ImagePickerControl_ImageReceived" 
             ImagePreviewReceived="previewControl_ImagePreviewReceived"/>
         <!--<Canvas>
             <Rectangle Width="100" Height="100" 

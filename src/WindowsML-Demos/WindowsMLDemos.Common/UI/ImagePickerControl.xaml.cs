@@ -105,7 +105,7 @@ namespace WindowsMLDemos.Common.UI
         private bool isPreviewing = false;
         DisplayRequest displayRequest = new DisplayRequest();
 
-        public event EventHandler<ImageReceivedEventArgs> ImageReceived;
+        //public event EventHandler<ImageReceivedEventArgs> ImageReceived;
         public event EventHandler<ImagePreviewReceivedEventArgs> ImagePreviewReceived;
 
         public ImagePickerControl()

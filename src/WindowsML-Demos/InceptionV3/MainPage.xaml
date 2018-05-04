@@ -17,7 +17,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <control:ImagePickerControl x:Name="previewControl" PreviewInterval="3" ImagePreviewReceived="ImagePickerControl_ImagePreviewReceived" ImageReceived="ImagePickerControl_ImageReceived"/>
+        <control:ImagePickerControl x:Name="previewControl" 
+                                    PreviewInterval="3" 
+                                    ImagePreviewReceived="ImagePickerControl_ImagePreviewReceived"
+                                    WideImage="True"/>
         <Grid Grid.RowSpan="2" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
