@@ -107,6 +107,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="Model\Resnet50.onnx" />
+    <None Include="Model\readme.md" />
     <None Include="ResNet50_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

@@ -114,6 +114,7 @@
     </AppxManifest>
     <None Include="GoogleNetPlaces_TemporaryKey.pfx" />
     <Content Include="Model\GoogLeNetPlaces.onnx" />
+    <None Include="Model\readme.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />

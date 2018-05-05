@@ -107,6 +107,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="Model\TinyYOLO.onnx" />
+    <None Include="Model\readme.md" />
     <None Include="TinyYOLO_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

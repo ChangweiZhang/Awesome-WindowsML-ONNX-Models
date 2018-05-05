@@ -115,6 +115,7 @@
     </AppxManifest>
     <None Include="InceptionV3_TemporaryKey.pfx" />
     <Content Include="Model\Inceptionv3.onnx" />
+    <None Include="Model\readme.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />

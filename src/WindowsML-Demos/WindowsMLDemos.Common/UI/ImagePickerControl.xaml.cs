@@ -264,7 +264,6 @@ namespace WindowsMLDemos.Common.UI
             try
             {
                 PreviewControl.Source = mediaCapture;
-
                 await mediaCapture.StartPreviewAsync();
                 isPreviewing = true;
             }
