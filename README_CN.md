@@ -56,19 +56,19 @@ python onnxgenerator.py
 
 根据输出窗口提示，依次输入CoreML模型文件地址并回车：
 
-![MacDown logo](http://macdown.uranusjr.com/static/images/logo-160.png)
+![model path](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/blob/master/img/step1.png?raw=true)
 
 现在输入模型名称，用于MLGen工具生成C#代码的模型命名
 
-![MacDown logo](http://macdown.uranusjr.com/static/images/logo-160.png)
+![model name](https://raw.githubusercontent.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/master/img/step2.png)
 
 生成ONNX模型后，此时决定是否继续生成json格式的模型文件
 
-![MacDown logo](http://macdown.uranusjr.com/static/images/logo-160.png)
+![generate json](https://raw.githubusercontent.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/master/img/step3.png)
 
 生成的模型文件如下：
 
-![MacDown logo](http://macdown.uranusjr.com/static/images/logo-160.png)
+![output model](https://raw.githubusercontent.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/master/img/result.png)
 
 ## Demo说明
 
