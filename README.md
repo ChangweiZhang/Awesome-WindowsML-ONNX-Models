@@ -1,86 +1,87 @@
 # Awesome WindowsML ONNX Models
+[Guidelines in Chinese（中文版指南）](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/blob/master/README_CN.md)
 
-从Windows 10 RS4更新（版本1803）开始，微软提供了系统内置的AI平台让开发者可以直接将机器学习能力集成到应用中，可以在本地离线执行预训练好的机器学习模型。
+Since Windows 10 RS4 Update（Build 1803），Microsoft has released Windows ML platform to help developers integrate machine learning features into applications. 
 
-[官方文档入口](https://docs.microsoft.com/en-us/windows/uwp/machine-learning/)
+[The official documentation](https://docs.microsoft.com/en-us/windows/uwp/machine-learning/)
 
-我们可以使用大量ONNX格式的机器学习模型，在Windows ML平台下利用机器学习技术在本机实现创新体验。本项目提供目前尽可能多的经过验证的模型，并且提供相应的demo和参考信息，帮助大家快速集成AI能力到项目。
+We can create innovative apps based on lots of machine learning models in ONNX format because Windows ML evaluates trained models locally on Windows 10 devices, providing hardware-accelerated performance by leveraging the device's CPU or GPU, and computes evaluations for both classical ML algorithms and Deep Learning.
+This project provides the largest collection of tested ONNX machine learning models ande demos for develpers，to help you integrate machine learning features more easily.
 
-同时还提供ONNX模型转换工具，可以将其他格式的模型转化为可使用ONNX格式。
+What's more, it also provide a ONNX model generator that is able to convert CoreML models to ONNX format.
 
+## Models
+  
+The master branch only provide tested models for you.
 
-## 模型集合
+### Image Processing
   
-目前项目的模型种类持续扩充中， __master__ 分支仅提供经过验证测试的模型和demo。
-
-### 图像处理
-  
-图像处理类模型可以根据输入的图像计算出特定的结果输出
+Models that can output deseried information with image data as input .
 
 
-| 模型名称  | 功能  |  来源| |
+
+| Name  | Feature  |  Source| |
 |:------------- |:---------------:| :-------------:|:---------:|
-| GoogleNetPlace      | 识别图像的场景类型，输出205种类别，例如办公室、机场之类 |[CoreML](https://coreml.store/googlenetplaces)|[模型下载](http://changwei.tech/doc/onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/GoogleNetPlaces) [参考文献](http://places.csail.mit.edu/index.html) |
-| Inception v3      | 识别图像中的物体，输出1000种类别。前5个预测错误低至5.6%        | [CoreML](https://coreml.store/inceptionv3)|          [模型下载](http://changwei.tech/doc/onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/InceptionV3) [参考文献](https://arxiv.org/abs/1512.00567) |
-| ResNet50 | 识别图像中的物体，输出1000种类别。前5个预测错误低至7.8%        |   [CoreML](https://coreml.store/resnet50)|       [模型下载](http://changwei.tech/doc/onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/ResNet50) [参考文献](https://arxiv.org/abs/1512.03385)  |
-| TinyYOLO | 识别出图像中多个物体，并输出类别和物体矩形边框数据，用于在图像中圈出物体，可识别物体种类为20种       | [CoreML](https://coreml.store/tinyyolo)|        [模型下载](http://changwei.tech/doc/onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/TinyYOLO) [参考文献](http://machinethink.net/blog/object-detection-with-yolo) |
+| GoogleNetPlace      | Detects the scene of an image from 205 categories such as airport, bedroom, forest, coast etc. |[CoreML](https://coreml.store/googlenetplaces)|[Download](http://changwei.tech/doc/onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/GoogleNetPlaces) [Reference](http://places.csail.mit.edu/index.html) |
+| Inception v3      | Detects the dominant objects present in an image from a set of 1000 categories such as trees, animals, food, vehicles, person etc. The top-5 error from the original publication is 5.6%.        | [CoreML](https://coreml.store/inceptionv3)|          [Downloads](http://changwei.tech/doc/onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/InceptionV3) [Reference](https://arxiv.org/abs/1512.00567) |
+| ResNet50 | Detects the dominant objects present in an image from a set of 1000 categories such as trees, animals, food, vehicles, person etc. The top-5 error from the original publication is 7.8%.        |   [CoreML](https://coreml.store/resnet50)|       [Download](http://changwei.tech/doc/onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/ResNet50) [Reference](https://arxiv.org/abs/1512.03385)  |
+| TinyYOLO | Detects multi objects in an image. The Tiny YOLO network from the paper \'YOLO9000: Better, Faster, Stronger\' (2016), arXiv:1612.08242       | [CoreML](https://coreml.store/tinyyolo)|        [Download](http://changwei.tech/doc/onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/TinyYOLO) [Reference](http://machinethink.net/blog/object-detection-with-yolo) |
   
   
-## ONNX转换工具
+## ONNX Generator
 
-ONNX是由微软、Facebook和英特尔等公司推出的一个通用开放的机器学习模型格式，Windows ML目前只能执行ONNX格式的模型。所以我们需要将其他格式的模型转换后才可以使用，项目给大家提供了一个快速转换工具ONNX Generator。
+ONNX is a open format to represent deep learning models. With ONNX, AI developers can more easily move models between state-of-the-art tools and choose the combination that is best for them. Windows ML only support ONNX format models. So we must need convert existed models in other format to ONNX models and this ONNX Generator is useful for you.
 
-[ONNX项目地址](https://github.com/onnx/onnx)
+[ONNX Project](https://github.com/onnx/onnx)
 
-[微软官方模型转换文档](https://docs.microsoft.com/en-us/windows/uwp/machine-learning/conversion-samples)
+[The offical documents for model converting](https://docs.microsoft.com/en-us/windows/uwp/machine-learning/conversion-samples)
 
-### 环境准备
-
-请先安装好以下工具：
+### Requirements
 
 * Python 2.7.x
 * winmltools
 * [coremltools](https://github.com/apple/coremltools)
 
 
-### 工具使用
+### How to Use
 
-ONNX Generator工具位于tools目录下，直接执行onnxgenerator.py脚本即可：
+ONNX Generator tool is located in the __tools__ folder，and just run the onnxgenerator.py script：
 
 
 ```
 python onnxgenerator.py
 ```
 
-根据输出窗口提示，依次输入CoreML模型文件地址并回车：
+Next step is input the path of CoreML model file：
 
 ![model path](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/blob/master/images/step1.png?raw=true)
 
 
-现在输入模型名称，用于MLGen工具生成C#代码的模型命名
+Input the name of model, which will be used to generator c# class name by MLGen tool
 
 
 ![model name](https://raw.githubusercontent.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/master/images/step2.png)
 
-生成ONNX模型后，此时决定是否继续生成json格式的模型文件
+After ONNX file generated, you can confirm if you want a json model file
 
 ![generate json](https://raw.githubusercontent.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/master/images/step3.png)
 
-生成的模型文件如下：
+Here are the model files：
 
 ![output model](https://raw.githubusercontent.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/master/images/result.png)
 
-## Demo说明
+## Demos
 
-src目录中的demo项目中默认是 **<font color=red>没有模型文件的</font>**，此时直接编译会报错失败。
+Demo projects in the src folder have __no ONNX model files__ by default and it can't be built.
 
-**请直接把下载后的ONNX模型文件放入项目中对应的位置即可**
+**You just should download the ONNX file from above links and place them into correct folders.**
 
-## 问题反馈
+## Feedback
 
-如果有问题可以直接在Issue中提出，或者联系我本人。
+If there is any question or issue, please create a new issue or just contact me. By the way, everyone can contribute to this project.
+Have a enjoy time!
 
-联系方式：
+Contact：
 
 
 * E-mail: [mantgh@outlook.com](mailto://mantgh@outlook.com)
