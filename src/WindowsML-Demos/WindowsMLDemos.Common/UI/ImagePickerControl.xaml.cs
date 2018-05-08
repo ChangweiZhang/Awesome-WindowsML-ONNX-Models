@@ -158,7 +158,11 @@ namespace WindowsMLDemos.Common.UI
                         //}
                         if (ImagePreviewReceived != null)
                         {
-                            ImagePreviewReceived(this, new ImagePreviewReceivedEventArgs(VideoFrame.CreateWithSoftwareBitmap(softImg), true));
+                            var frame = VideoFrame.CreateWithSoftwareBitmap(softImg);
+                            var outputFrame = new VideoFrame(BitmapPixelFormat.Bgra8, ImageTargetWidth, ImageTargetHeight);
+                            await frame.CopyToAsync(outputFrame);
+                            frame.Dispose();
+                            ImagePreviewReceived(this, new ImagePreviewReceivedEventArgs(outputFrame, true));
                         }
                     }
                 }
@@ -247,7 +251,6 @@ namespace WindowsMLDemos.Common.UI
         {
             try
             {
-
                 mediaCapture = new MediaCapture();
                 await mediaCapture.InitializeAsync();
 

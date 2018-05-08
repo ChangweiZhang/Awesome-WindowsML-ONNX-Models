@@ -32,7 +32,19 @@ namespace WindowsMLDemos.Common.Helper
             var output = await learningModel.EvaluateAsync(input);
             return output;
         }
-
+        /// <summary>
+        /// evaluate a model
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="learningModel"></param>
+        /// <returns></returns>
+        public async static Task<(IMachineLearningOutput Result, double EvalutionTime)> EvaluateWithTimeReturnAsync(IMachineLearningInput input, IMachineLearningModel learningModel)
+        {
+            var startTime = DateTime.Now;
+            var output = await EvaluateAsync(input, learningModel);
+            var costTime = (DateTime.Now - startTime).TotalSeconds;
+            return (output, costTime);
+        }
         /*
           Logistic sigmoid.
         */
