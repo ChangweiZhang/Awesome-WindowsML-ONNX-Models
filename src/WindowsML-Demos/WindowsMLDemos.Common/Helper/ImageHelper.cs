@@ -16,14 +16,14 @@ namespace WindowsMLDemos.Common.Helper
             BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
             return await decoder.GetSoftwareBitmapAsync();
         }
-            /// <summary>
-            /// resize video frame with specifical size
-            /// </summary>
-            /// <param name="frame"></param>
-            /// <param name="targetWidth"></param>
-            /// <param name="targetHeight"></param>
-            /// <returns></returns>
-            public async static Task<VideoFrame> ResizeVideoFrameAsync(VideoFrame frame, VideoEncodingProperties encodingProperties, int targetWidth, int targetHeight)
+        /// <summary>
+        /// resize video frame with specifical size
+        /// </summary>
+        /// <param name="frame"></param>
+        /// <param name="targetWidth"></param>
+        /// <param name="targetHeight"></param>
+        /// <returns></returns>
+        public async static Task<VideoFrame> ResizeVideoFrameAsync(VideoFrame frame, VideoEncodingProperties encodingProperties, int targetWidth, int targetHeight)
         {
             if (frame != null)
             {
@@ -90,6 +90,8 @@ namespace WindowsMLDemos.Common.Helper
             imagePicker.ViewMode = PickerViewMode.List;
             imagePicker.FileTypeFilter.Add(".jpg");
             imagePicker.FileTypeFilter.Add(".png");
+            imagePicker.FileTypeFilter.Add(".bmp");
+            imagePicker.FileTypeFilter.Add(".jpeg");
             var file = await imagePicker.PickSingleFileAsync();
             return file;
         }
