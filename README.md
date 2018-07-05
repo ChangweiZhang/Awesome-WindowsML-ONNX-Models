@@ -6,7 +6,7 @@ Since Windows 10 RS4 Update（Build 1803），Microsoft has released Windows ML 
 [The official documentation](https://docs.microsoft.com/en-us/windows/uwp/machine-learning/)
 
 We can create innovative apps based on lots of machine learning models in ONNX format because Windows ML evaluates trained models locally on Windows 10 devices, providing hardware-accelerated performance by leveraging the device's CPU or GPU, and computes evaluations for both classical ML algorithms and Deep Learning.
-This project provides the largest collection of tested ONNX machine learning models ande demos for develpers，to help you integrate machine learning features more easily.
+This project provides the largest collection of tested ONNX machine learning models and demos for developers，to help you integrate machine learning features more easily.
 
 What's more, it also provide a ONNX model generator that is able to convert CoreML models to ONNX format.
 
