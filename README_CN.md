@@ -8,6 +8,11 @@
 
 同时还提供ONNX模型转换工具，可以将其他格式的模型转化为可使用ONNX格式。
 
+## 环境要求
+
+- [Visual Studio 2017 Version 15.7.4 or Newer](https://developer.microsoft.com/en-us/windows/downloads)
+- [Windows 10 - Build 17738 or higher](https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewiso)
+- [Windows SDK - Build 17738 or higher](https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewSDK)
 
 ## 模型集合
   
@@ -38,9 +43,25 @@ ONNX是由微软、Facebook和英特尔等公司推出的一个通用开放的�
 
 请先安装好以下工具：
 
-* Python 2.7.x
+* Python 3.6.x
 * winmltools
 * [coremltools](https://github.com/apple/coremltools)
+* ONNX 1.2.2
+
+#### Install ONNX
+```
+pip install onnx
+```
+make sure the verison is 1.2.2
+
+#### Install Apple coremltools
+```
+pip install git+https://github.com/apple/coremltools
+```
+#### Install winmltools
+```
+pip install winmltools
+```
 
 
 ### 工具使用

@@ -9,6 +9,11 @@ We can create innovative apps based on lots of machine learning models in ONNX f
 This project provides the largest collection of tested ONNX machine learning models and demos for developers，to help you integrate machine learning features more easily.
 
 What's more, it also provide a ONNX model generator that is able to convert CoreML models to ONNX format.
+## Requirements
+
+- [Visual Studio 2017 Version 15.7.4 or Newer](https://developer.microsoft.com/en-us/windows/downloads)
+- [Windows 10 - Build 17738 or higher](https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewiso)
+- [Windows SDK - Build 17738 or higher](https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewSDK)
 
 ## Models
   
@@ -38,9 +43,25 @@ ONNX is a open format to represent deep learning models. With ONNX, AI developer
 
 ### Requirements
 
-* Python 2.7.x
+* Python 3.6.x
 * winmltools
 * [coremltools](https://github.com/apple/coremltools)
+* ONNX 1.2.2
+
+#### Install ONNX
+```
+pip install onnx
+```
+make sure the verison is 1.2.2
+
+#### Install Apple coremltools
+```
+pip install git+https://github.com/apple/coremltools
+```
+#### Install winmltools
+```
+pip install winmltools
+```
 
 
 ### How to Use
