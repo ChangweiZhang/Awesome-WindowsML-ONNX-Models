@@ -130,7 +130,10 @@ namespace FNSSeries
 
                 if (output != null)
                 {
-                    previewControl.EvalutionTime = (DateTime.Now - startTime).TotalSeconds.ToString();
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                    {
+                        previewControl.EvalutionTime = (DateTime.Now - startTime).TotalSeconds.ToString();
+                    });
                     var lineLength = imageHeigth * imageWidth;
                     var newImageData = new byte[4 * lineLength];
                     var outData = output.outputImage.GetAsVectorView().ToArray();
@@ -187,9 +190,14 @@ namespace FNSSeries
                         var decoder = await BitmapDecoder.CreateAsync(ms);
                         var sbmp = await decoder.GetSoftwareBitmapAsync();
                         sbmp = SoftwareBitmap.Convert(sbmp, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore);
-                        var tsbs = new SoftwareBitmapSource();
-                        await tsbs.SetBitmapAsync(sbmp);
-                        previewImage.Source = tsbs;
+                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,async () =>
+                        {
+                            var tsbs = new SoftwareBitmapSource();
+                            await tsbs.SetBitmapAsync(sbmp);
+                            previewImage.Source = tsbs;
+                        });
+                        
+                       
                     }
                 }
             }
