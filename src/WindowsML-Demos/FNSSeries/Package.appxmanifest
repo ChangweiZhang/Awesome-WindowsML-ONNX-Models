@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="9fa19478-89e6-45e0-9082-b466634d08e5"
-    Publisher="CN=chazhan"
+    Name="b9236a6b-5bf8-4f89-9d1a-fcc75748bc69"
+    Publisher="CN=changwei"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="9fa19478-89e6-45e0-9082-b466634d08e5" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="b9236a6b-5bf8-4f89-9d1a-fcc75748bc69" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>AnimeScale2x</DisplayName>
-    <PublisherDisplayName>chazhan</PublisherDisplayName>
+    <DisplayName>FNSSeries</DisplayName>
+    <PublisherDisplayName>changwei</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -30,12 +30,12 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="AnimeScale2x.App">
+      EntryPoint="FNSSeries.App">
       <uap:VisualElements
-        DisplayName="AnimeScale2x"
+        DisplayName="FNSSeries"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="AnimeScale2x"
+        Description="FNSSeries"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />

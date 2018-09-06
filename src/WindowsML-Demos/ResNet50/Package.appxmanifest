@@ -7,11 +7,11 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="7d0380c7-f4d1-4a20-8bc2-a6eafe7628ba"
+    Name="b035ecaf-7bc1-45e8-809a-f36488ed4273"
     Publisher="CN=changwei"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="7d0380c7-f4d1-4a20-8bc2-a6eafe7628ba" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="b035ecaf-7bc1-45e8-809a-f36488ed4273" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>ResNet50</DisplayName>

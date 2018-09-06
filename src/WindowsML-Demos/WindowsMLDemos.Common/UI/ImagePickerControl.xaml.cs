@@ -33,7 +33,10 @@ namespace WindowsMLDemos.Common.UI
         }
 
 
-
+        /// <summary>
+        /// False mean the image should be resized and center croped
+        /// True mean the image will keep oragin scale
+        /// </summary>
         public bool WideImage
         {
             get { return (bool)GetValue(WideImageProperty); }

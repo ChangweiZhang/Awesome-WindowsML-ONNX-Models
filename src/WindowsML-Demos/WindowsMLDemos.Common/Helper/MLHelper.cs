@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.AI.MachineLearning;
 using Windows.AI.MachineLearning.Preview;
 using Windows.Storage;
 
@@ -16,10 +17,11 @@ namespace WindowsMLDemos.Common.Helper
         /// <param name="file"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async static Task CreateModelAsync(StorageFile file, IMachineLearningModel model)
+        public async static Task CreateModelAsync(StorageFile file, IMachineLearningModel learningModel)
         {
-            var learningModel = await LearningModelPreview.LoadModelFromStorageFileAsync(file);
-            model.LearningModel = learningModel;
+            learningModel.LearningModel = await LearningModel.LoadFromStreamAsync(file);
+            learningModel.Session = new LearningModelSession(learningModel.LearningModel);
+            learningModel.Binding = new LearningModelBinding(learningModel.Session);
         }
         /// <summary>
         /// evaluate a model

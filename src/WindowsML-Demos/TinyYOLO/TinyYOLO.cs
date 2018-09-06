@@ -1,35 +1,29 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.AI.MachineLearning.Preview;
-using Windows.Foundation;
 using Windows.Media;
+using Windows.Storage;
+using Windows.Storage.Streams;
+using Windows.AI.MachineLearning;
 using WindowsMLDemos.Common;
 using WindowsMLDemos.Common.Helper;
-// TinyYOLOModel
+using Windows.Foundation;
 
 namespace TinyYOLO
 {
-    public sealed class TinyYOLOModelModelInput : IMachineLearningInput
+
+    public sealed class TinyYOLOInput : IMachineLearningInput
     {
-        public VideoFrame image { get; set; }
+        public ImageFeatureValue image; // shape(-1,3,416,416)
     }
 
-    public sealed class TinyYOLOModelModelOutput : IMachineLearningOutput
+    public sealed class TinyYOLOOutput : IMachineLearningOutput
     {
         public const int ML_ARRAY_LENGTH = 125 * 13 * 13;
-        public IList<float> grid { get; set; }
-        public TinyYOLOModelModelOutput()
-        {
-            this.grid = new List<float>();
-            for (var i = 0; i < ML_ARRAY_LENGTH; i++)
-            {
-                grid.Add(float.NaN);
-            }
-        }
+        public TensorFloat16Bit grid; // shape(-1,125,13,13)
     }
 
-    public sealed class TinyYOLOModelModel : IMachineLearningModel
+    public sealed class TinyYOLOModel : IMachineLearningModel
     {
         public List<string> Labels = new List<string> {
           "aeroplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat",
@@ -41,22 +35,25 @@ namespace TinyYOLO
         float confidenceThreshold = 0.3f;
         float iouThreshold = 0.5f;
         public static int maxBoundingBoxes = 10;
-        public LearningModelPreview LearningModel { get; set; }
+
+        public LearningModel LearningModel { get; set; }
+        public LearningModelSession Session { get; set; }
+        public LearningModelBinding Binding { get; set; }
 
         public async Task<IMachineLearningOutput> EvaluateAsync(IMachineLearningInput input)
         {
-            var modelInput = input as TinyYOLOModelModelInput;
-            TinyYOLOModelModelOutput output = new TinyYOLOModelModelOutput();
-            LearningModelBindingPreview binding = new LearningModelBindingPreview(LearningModel);
-            binding.Bind("image", modelInput.image);
-            binding.Bind("grid", output.grid);
-            LearningModelEvaluationResultPreview evalResult = await LearningModel.EvaluateAsync(binding, string.Empty);
+            var modelInput = input as TinyYOLOInput;
+            Binding.Bind("image", modelInput.image);
+            var result = await Session.EvaluateAsync(Binding, "0");
+            var output = new TinyYOLOOutput();
+            output.grid = result.Outputs["grid"] as TensorFloat16Bit;
             return output;
         }
 
+
         public List<Prediction> ComputeBoundingBoxes(IList<float> features)
         {
-            if (features.Count == TinyYOLOModelModelOutput.ML_ARRAY_LENGTH)
+            if (features.Count == TinyYOLOOutput.ML_ARRAY_LENGTH)
             {
                 var predictions = new List<Prediction>();
 
@@ -273,3 +270,4 @@ namespace TinyYOLO
         }
     }
 }
+

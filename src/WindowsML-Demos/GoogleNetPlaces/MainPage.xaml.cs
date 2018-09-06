@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.AI.MachineLearning;
 using Windows.Media;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
@@ -16,7 +17,7 @@ namespace GoogleNetPlaces
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        GoogLeNetPlacesModelModel model;
+        GoogLeNetPlacesModel model;
         public MainPage()
         {
             this.InitializeComponent();
@@ -38,36 +39,41 @@ namespace GoogleNetPlaces
                 var modelFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Model/GoogLeNetPlaces.onnx"));
                 if (modelFile != null)
                 {
-                    model = new GoogLeNetPlacesModelModel();
+                    model = new GoogLeNetPlacesModel();
                     await MLHelper.CreateModelAsync(modelFile, model);
                 }
             }
-            var input = new GoogLeNetPlacesModelModelInput()
+            var input = new GoogLeNetPlacesInput()
             {
-                sceneImage = videoFrame
+                sceneImage = ImageFeatureValue.CreateFromVideoFrame(videoFrame)
             };
 
             try
             {
-                var res = await model.EvaluateAsync(input) as GoogLeNetPlacesModelModelOutput;
+                var res = await model.EvaluateAsync(input) as GoogLeNetPlacesOutput;
                 if (res != null)
                 {
                     var results = new List<LabelResult>();
-                    foreach (var kv in res.sceneLabelProbs)
+                    if (res.sceneLabelProbs != null)
                     {
-                        results.Add(new LabelResult
+                        var dict = res.sceneLabelProbs.FirstOrDefault();
+                        foreach (var kv in dict)
                         {
-                            Label = kv.Key,
-                            Result = (float)Math.Round(kv.Value * 100, 2)
+                            results.Add(new LabelResult
+                            {
+                                Label = kv.Key,
+                                Result = (float)Math.Round(kv.Value * 100, 2)
+                            });
+                        }
+                        results.Sort((p1, p2) =>
+                        {
+                            return p2.Result.CompareTo(p1.Result);
                         });
                     }
-                    results.Sort((p1, p2) =>
-                    {
-                        return p2.Result.CompareTo(p1.Result);
-                    });
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                      {
-                         outputText.Text = res.sceneLabel.FirstOrDefault();
+                         var places = res.sceneLabel.GetAsVectorView().ToArray();
+                         outputText.Text = places.FirstOrDefault();
                          resultList.ItemsSource = results;
                          previewControl.EvalutionTime = (DateTime.Now - startTime).TotalSeconds.ToString();
                      });

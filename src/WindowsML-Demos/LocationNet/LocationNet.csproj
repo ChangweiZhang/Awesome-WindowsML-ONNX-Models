@@ -4,20 +4,20 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{B543B377-6E23-46B9-8FC1-C524EE3FB274}</ProjectGuid>
+    <ProjectGuid>{EE05E043-A10B-4737-AF3D-B466AD4F38E1}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AnimeScale2x</RootNamespace>
-    <AssemblyName>AnimeScale2x</AssemblyName>
+    <RootNamespace>LocationNet</RootNamespace>
+    <AssemblyName>LocationNet</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17134.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17738.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17738.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <PackageCertificateKeyFile>AnimeScale2x_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>LocationNet_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -92,7 +92,6 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AnimeScale2x.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -100,15 +99,14 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RN1015k500.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <Content Include="Model\AnimeScale2x.onnx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="AnimeScale2x_TemporaryKey.pfx" />
+    <None Include="LocationNet_TemporaryKey.pfx" />
+    <Content Include="Model\RN1015k500.onnx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />
@@ -137,7 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WindowsMLDemos.Common\WindowsMLDemos.Common.csproj">
-      <Project>{F3BD73F3-4A09-4865-8666-52727E7BAB76}</Project>
+      <Project>{c572a08d-74e0-4bd0-955c-bb3c11f925c5}</Project>
       <Name>WindowsMLDemos.Common</Name>
     </ProjectReference>
   </ItemGroup>

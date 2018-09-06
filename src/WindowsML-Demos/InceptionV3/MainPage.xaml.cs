@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.AI.MachineLearning;
 using Windows.Media;
-using Windows.Media.Capture;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 using WindowsMLDemos.Common;
@@ -47,31 +47,35 @@ namespace InceptionV3
                     }
                 }
 
-                var input = new Inceptionv3ModelInput()
+                var input = new Inceptionv3Input()
                 {
-                    image = videoFrame
+                    image = ImageFeatureValue.CreateFromVideoFrame(videoFrame)
                 };
 
-                var res = await model.EvaluateAsync(input) as Inceptionv3ModelOutput;
+                var res = await model.EvaluateAsync(input) as Inceptionv3Output;
                 if (res != null)
                 {
                     var results = new List<LabelResult>();
-                    foreach (var kv in res.classLabelProbs)
+                    if (res.classLabelProbs != null)
                     {
-                        results.Add(new LabelResult
+                        var dict = res.classLabelProbs.FirstOrDefault();
+                        foreach (var kv in dict)
                         {
-                            Label = kv.Key,
-                            Result = (float)Math.Round(kv.Value * 100, 2)
+                            results.Add(new LabelResult
+                            {
+                                Label = kv.Key,
+                                Result = (float)Math.Round(kv.Value * 100, 2)
+                            });
+                        }
+                        results.Sort((p1, p2) =>
+                        {
+                            return p2.Result.CompareTo(p1.Result);
                         });
                     }
-                    results.Sort((p1, p2) =>
-                    {
-                        return p2.Result.CompareTo(p1.Result);
-                    });
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
                         previewControl.EvalutionTime = (DateTime.Now - startTime).TotalSeconds.ToString();
-                        outputText.Text = res.classLabel.FirstOrDefault();
+                        outputText.Text = res.classLabel.GetAsVectorView().FirstOrDefault();
                         resultList.ItemsSource = results;
                     });
                 }

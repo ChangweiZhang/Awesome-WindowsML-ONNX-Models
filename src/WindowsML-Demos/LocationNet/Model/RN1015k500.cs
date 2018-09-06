@@ -5,40 +5,40 @@ using Windows.Media;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.AI.MachineLearning;
-namespace InceptionV3
+namespace LocationNet
 {
     
-    public sealed class Inceptionv3Input
+    public sealed class RN1015k500Input
     {
-        public TensorFloat16Bit image; // shape(-1,3,299,299)
+        public TensorFloat16Bit data; // shape(-1,3,224,224)
     }
     
-    public sealed class Inceptionv3Output
+    public sealed class RN1015k500Output
     {
         public TensorString classLabel; // shape(-1,1)
-        public IList<Dictionary<string,float>> classLabelProbs;
+        public IList<Dictionary<string,float>> softmax_output;
     }
     
-    public sealed class Inceptionv3Model
+    public sealed class RN1015k500Model
     {
         private LearningModel model;
         private LearningModelSession session;
         private LearningModelBinding binding;
-        public static async Task<Inceptionv3Model> CreateFromStreamAsync(IRandomAccessStreamReference stream)
+        public static async Task<RN1015k500Model> CreateFromStreamAsync(IRandomAccessStreamReference stream)
         {
-            Inceptionv3Model learningModel = new Inceptionv3Model();
+            RN1015k500Model learningModel = new RN1015k500Model();
             learningModel.model = await LearningModel.LoadFromStreamAsync(stream);
             learningModel.session = new LearningModelSession(learningModel.model);
             learningModel.binding = new LearningModelBinding(learningModel.session);
             return learningModel;
         }
-        public async Task<Inceptionv3Output> EvaluateAsync(Inceptionv3Input input)
+        public async Task<RN1015k500Output> EvaluateAsync(RN1015k500Input input)
         {
-            binding.Bind("image", input.image);
+            binding.Bind("data", input.data);
             var result = await session.EvaluateAsync(binding, "0");
-            var output = new Inceptionv3Output();
+            var output = new RN1015k500Output();
             output.classLabel = result.Outputs["classLabel"] as TensorString;
-            output.classLabelProbs = result.Outputs["classLabelProbs"] as IList<Dictionary<string,float>>;
+            output.softmax_output = result.Outputs["softmax_output"] as IList<Dictionary<string,float>>;
             return output;
         }
     }

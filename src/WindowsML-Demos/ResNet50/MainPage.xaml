@@ -5,54 +5,10 @@
     xmlns:local="using:ResNet50"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:control="using:WindowsMLDemos.Common.UI"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <control:ImagePickerControl x:Name="previewControl" 
-                                    PreviewInterval="3" 
-                                    ImagePreviewReceived="ImagePickerControl_ImagePreviewReceived"
-                                    WideImage="True"/>
-        <Grid Grid.RowSpan="2" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <StackPanel>
-                <StackPanel Margin="15" HorizontalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Text="Result:" VerticalAlignment="Center"/>
-                    <TextBlock  VerticalAlignment="Center" Foreground="DarkRed" x:Name="outputText" Margin="15" FontSize="30" TextWrapping="Wrap"/>
-                </StackPanel>
-                <StackPanel Margin="15,0" HorizontalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Text="Evaluate Time:" VerticalAlignment="Center"/>
-                    <TextBlock  VerticalAlignment="Center" Foreground="DarkRed" x:Name="evaluateTimeText" Margin="15" FontSize="30" TextWrapping="Wrap"/>
-                </StackPanel>
-            </StackPanel>
-            <ListView HorizontalAlignment="Center" Margin="10" x:Name="resultList" Grid.Row="1" >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid HorizontalAlignment="Stretch" MinWidth="240">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Label}"/>
-                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Column="1">
-                                <TextBlock  FontWeight="Bold"  Text="{Binding Result}"/>
-                                <TextBlock Text="%" FontWeight="Bold"/>
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Grid>
+
     </Grid>
 </Page>

@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace AnimeScale2x
+namespace FNSSeries
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.

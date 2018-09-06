@@ -1,51 +1,45 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.Media;
-using Windows.Storage;
-using Windows.AI.MachineLearning.Preview;
+using Windows.AI.MachineLearning;
 using WindowsMLDemos.Common;
 
 // GoogLeNetPlacesModel
 
 namespace GoogleNetPlaces
 {
-    public sealed class GoogLeNetPlacesModelModelInput : IMachineLearningInput
+    public sealed class GoogLeNetPlacesInput : IMachineLearningInput
     {
-        public VideoFrame sceneImage { get; set; }
+        public ImageFeatureValue sceneImage { get; set; }
     }
 
-    public sealed class GoogLeNetPlacesModelModelOutput : IMachineLearningOutput
+    public sealed class GoogLeNetPlacesOutput : IMachineLearningOutput
     {
-        public IList<string> sceneLabel { get; set; }
-        public IDictionary<string, float> sceneLabelProbs { get; set; }
-        public GoogLeNetPlacesModelModelOutput()
+        public TensorString sceneLabel; // shape(-1,1)
+        public IList<Dictionary<string, float>> sceneLabelProbs;
+        public GoogLeNetPlacesOutput()
         {
-            this.sceneLabel = new List<string>();
-            this.sceneLabelProbs = new Dictionary<string, float>();
-            for(var i = 0; i < 205; i++)
-            {
-                sceneLabelProbs[i.ToString()] = float.NaN;
-            }
         }
     }
 
-    public sealed class GoogLeNetPlacesModelModel : IMachineLearningModel
+    public sealed class GoogLeNetPlacesModel : IMachineLearningModel
     {
-        public LearningModelPreview LearningModel
+        public LearningModel LearningModel
         {
             get; set;
         }
+        public LearningModelSession Session { get; set; }
+        public LearningModelBinding Binding { get; set; }
+
 
         public async Task<IMachineLearningOutput> EvaluateAsync(IMachineLearningInput input)
         {
-            var modelInput = input as GoogLeNetPlacesModelModelInput;
-            GoogLeNetPlacesModelModelOutput output = new GoogLeNetPlacesModelModelOutput();
-            LearningModelBindingPreview binding = new LearningModelBindingPreview(LearningModel);
-            binding.Bind("sceneImage", modelInput.sceneImage);
-            binding.Bind("sceneLabel", output.sceneLabel);
-            binding.Bind("sceneLabelProbs", output.sceneLabelProbs);
-            LearningModelEvaluationResultPreview evalResult = await LearningModel.EvaluateAsync(binding, string.Empty);
+            var modelInput = input as GoogLeNetPlacesInput;
+            Binding.Bind("sceneImage", modelInput.sceneImage);
+            var result = await Session.EvaluateAsync(Binding, "0");
+            var output = new GoogLeNetPlacesOutput();
+            output.sceneLabel = result.Outputs["sceneLabel"] as TensorString;
+            output.sceneLabelProbs = result.Outputs["sceneLabelProbs"] as IList<Dictionary<string, float>>;
             return output;
         }
     }

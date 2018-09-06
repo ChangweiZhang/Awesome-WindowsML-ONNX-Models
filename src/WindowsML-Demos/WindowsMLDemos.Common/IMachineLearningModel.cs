@@ -1,11 +1,16 @@
 ﻿using System.Threading.Tasks;
-using Windows.AI.MachineLearning.Preview;
+using Windows.AI.MachineLearning;
 
 namespace WindowsMLDemos.Common
 {
     public interface IMachineLearningModel
     {
-        LearningModelPreview LearningModel { get; set; }
+        LearningModel LearningModel
+        {
+            get; set;
+        }
+        LearningModelSession Session { get; set; }
+        LearningModelBinding Binding { get; set; }
 
         Task<IMachineLearningOutput> EvaluateAsync(IMachineLearningInput input);
     }

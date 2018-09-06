@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Windows.AI.MachineLearning;
 using Windows.Media;
 using Windows.Storage;
 using Windows.UI;
@@ -18,7 +20,7 @@ namespace TinyYOLO
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        TinyYOLOModelModel model;
+        TinyYOLOModel model;
         SolidColorBrush LineBrush = new SolidColorBrush(color: Windows.UI.Colors.Red);
         SolidColorBrush LabelBrush = new SolidColorBrush(color: Windows.UI.Colors.White);
         List<SolidColorBrush> ClassColors = new List<SolidColorBrush>();
@@ -50,20 +52,21 @@ namespace TinyYOLO
                     var modelFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Model/TinyYOLO.onnx"));
                     if (modelFile != null)
                     {
-                        model = new TinyYOLOModelModel();
+                        model = new TinyYOLOModel();
                         await MLHelper.CreateModelAsync(modelFile, model);
                     }
                 }
 
-                var input = new TinyYOLOModelModelInput()
+                var input = new TinyYOLOInput()
                 {
-                    image = videoFrame
+                    image = ImageFeatureValue.CreateFromVideoFrame(videoFrame)
                 };
 
-                var res = await model.EvaluateAsync(input) as TinyYOLOModelModelOutput;
+                var res = await model.EvaluateAsync(input) as TinyYOLOOutput;
                 if (res != null)
                 {
-                    var boxes = model.ComputeBoundingBoxes(res.grid);
+                    var data = res.grid.GetAsVectorView().ToList();
+                    var boxes = model.ComputeBoundingBoxes(data);
                     await DrawDetectedObjectRectAsync(boxes, isImage);
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                     {
