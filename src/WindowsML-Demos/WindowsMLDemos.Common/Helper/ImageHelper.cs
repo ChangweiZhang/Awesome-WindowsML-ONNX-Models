@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Windows.AI.MachineLearning;
 using Windows.Graphics.Imaging;
 using Windows.Media;
 using Windows.Media.MediaProperties;
@@ -174,6 +176,69 @@ namespace WindowsMLDemos.Common.Helper
                     return SoftwareBitmap.Convert(outputImg, format);
                 }
                 return outputImg;
+            }
+        }
+
+        public static async Task<SoftwareBitmap> GetImageFromTensorFloatDataAsync(TensorFloat16Bit outputImage, uint imageWidth, uint imageHeigth, double DpiX, double DpiY)
+        {
+            var outData = outputImage.GetAsVectorView().ToArray();
+            var lineLength = outData.Length / 3;
+            var newImageData = new byte[4 * lineLength];
+
+            if (outData.Length > 0)
+            {
+                var bData = outData.Take(lineLength).ToArray();
+                var rData = outData.Skip(lineLength * 2).Take(lineLength).ToArray();
+                var gData = outData.Skip(lineLength).Take(lineLength).ToArray();
+
+
+                for (var i = 0; i < lineLength; i++)
+                {
+                    var b = (bData[i]);//* 255);
+                    if (b < 0)
+                    {
+                        b = 0;
+                    }
+                    else if (b > 255)
+                    {
+                        b = 255;
+                    }
+                    newImageData[i * 4 + 0] = (byte)b;
+                    var g = (gData[i]);// * 255);
+                    if (g < 0)
+                    {
+                        g = 0;
+                    }
+                    else if (g > 255)
+                    {
+                        g = 255;
+                    }
+                    newImageData[i * 4 + 1] = (byte)g;
+                    var r = (rData[i]);// * 255);
+                    if (r < 0)
+                    {
+                        r = 0;
+                    }
+                    else if (r > 255)
+                    {
+                        r = 255;
+                    }
+                    newImageData[i * 4 + 2] = (byte)r;
+                    newImageData[i * 4 + 3] = 255;
+                }
+
+            }
+
+            using (var ms = new InMemoryRandomAccessStream())
+            {
+                var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, ms);
+                encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore, imageWidth, imageHeigth, DpiX, DpiY, newImageData);
+                await encoder.FlushAsync();
+
+                var decoder = await BitmapDecoder.CreateAsync(ms);
+                var sbmp = await decoder.GetSoftwareBitmapAsync();
+                //sbmp = SoftwareBitmap.Convert(sbmp, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore);
+                return sbmp;
             }
         }
     }
