@@ -31,6 +31,9 @@ Models that can output deseried information with image data as input .
 | Inception v3      | Detects the dominant objects present in an image from a set of 1000 categories such as trees, animals, food, vehicles, person etc. The top-5 error from the original publication is 5.6%.        | [CoreML](https://coreml.store/inceptionv3)|          [Downloads](http://changwei.tech/doc/onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/InceptionV3) [Reference](https://arxiv.org/abs/1512.00567) |
 | ResNet50 | Detects the dominant objects present in an image from a set of 1000 categories such as trees, animals, food, vehicles, person etc. The top-5 error from the original publication is 7.8%.        |   [CoreML](https://coreml.store/resnet50)|       [Download](http://changwei.tech/doc/onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/ResNet50) [Reference](https://arxiv.org/abs/1512.03385)  |
 | TinyYOLO | Detects multi objects in an image. The Tiny YOLO network from the paper \'YOLO9000: Better, Faster, Stronger\' (2016), arXiv:1612.08242       | [CoreML](https://coreml.store/tinyyolo)|        [Download](http://changwei.tech/doc/onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/TinyYOLO) [Reference](http://machinethink.net/blog/object-detection-with-yolo) |
+| LocationNet | Predict the location where a picture was taken. |[CoreML](https://coreml.store/rn1015k500)|[Download](http://changwei.tech/doc/onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/LocationNet) [Reference](https://aws.amazon.com/blogs/ai/estimating-the-location-of-images-using-mxnet-and-multimedia-commons-dataset-on-aws-ec2) |
+| Fast Netural Style Transfer      | Transfer a image into various artist styles,including Candy, Feathers, La Muse, Mosica, Scream, Udnie. https://github.com/jcjohnson/fast-neural-style |[CoreML](https://coreml.store/googlenetplaces)|[Download](http://changwei.tech/doc/onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/FNSSeries) [Reference](https://cs.stanford.edu/people/jcjohns/eccv16/) |
+
   
   
 ## ONNX Generator
@@ -83,9 +86,14 @@ Input the name of model, which will be used to generator c# class name by MLGen 
 
 ![model name](https://raw.githubusercontent.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/master/images/step2.png)
 
+Convert to floating point 16
+
+![Optimize to float16](https://raw.githubusercontent.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/master/images/step3.jpg)
+
 After ONNX file generated, you can confirm if you want a json model file
 
-![generate json](https://raw.githubusercontent.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/master/images/step3.png)
+
+![generate json](https://raw.githubusercontent.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/master/images/step4.jpg)
 
 Here are the model files：
 
@@ -96,6 +104,8 @@ Here are the model files：
 Demo projects in the src folder have __no ONNX model files__ by default and it can't be built.
 
 **You just should download the ONNX file from above links and place them into correct folders.**
+
+![LocationNet](https://raw.githubusercontent.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/master/images/demo.png)
 
 ## Feedback
 
