@@ -134,15 +134,6 @@ namespace FNSSeries
                     {
                         previewControl.EvalutionTime = (DateTime.Now - startTime).TotalSeconds.ToString();
                     });
-                    var lineLength = imageHeigth * imageWidth;
-                    var newImageData = new byte[4 * lineLength];
-                    var outData = output.outputImage.GetAsVectorView().ToArray();
-                    if (outData.Length > 0)
-                    {
-                        var bData = outData.Take(lineLength).ToArray();
-                        var rData = outData.Skip(lineLength * 2).Take(lineLength).ToArray();
-                        var gData = outData.Skip(lineLength).Take(lineLength).ToArray();
-
                     var sbmp = await ImageHelper.GetImageFromTensorFloatDataAsync(output.outputImage, (uint)imageWidth,
                         (uint)imageHeigth, frame.SoftwareBitmap.DpiX, frame.SoftwareBitmap.DpiY);
                     sbmp = SoftwareBitmap.Convert(sbmp, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore);
