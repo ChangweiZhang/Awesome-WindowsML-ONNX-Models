@@ -25,10 +25,12 @@
 
 | 模型名称  | 功能  |  来源| |
 |:------------- |:---------------:| :-------------:|:---------:|
-| GoogleNetPlace      | 识别图像的场景类型，输出205种类别，例如办公室、机场之类 |[CoreML](https://coreml.store/googlenetplaces)|[模型下载](http://changwei.tech/doc/onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/GoogleNetPlaces) [参考文献](http://places.csail.mit.edu/index.html) |
-| Inception v3      | 识别图像中的物体，输出1000种类别。前5个预测错误低至5.6%        | [CoreML](https://coreml.store/inceptionv3)|          [模型下载](http://changwei.tech/doc/onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/InceptionV3) [参考文献](https://arxiv.org/abs/1512.00567) |
-| ResNet50 | 识别图像中的物体，输出1000种类别。前5个预测错误低至7.8%        |   [CoreML](https://coreml.store/resnet50)|       [模型下载](http://changwei.tech/doc/onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/ResNet50) [参考文献](https://arxiv.org/abs/1512.03385)  |
-| TinyYOLO | 识别出图像中多个物体，并输出类别和物体矩形边框数据，用于在图像中圈出物体，可识别物体种类为20种       | [CoreML](https://coreml.store/tinyyolo)|        [模型下载](http://changwei.tech/doc/onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/TinyYOLO) [参考文献](http://machinethink.net/blog/object-detection-with-yolo) |
+| GoogleNetPlace      | 识别图像的场景类型，输出205种类别，例如办公室、机场之类 |[CoreML](https://coreml.store/googlenetplaces)|[模型下载](https://github.com/ChangweiZhang/Awesome-ONNX-Models) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/GoogleNetPlaces) [参考文献](http://places.csail.mit.edu/index.html) |
+| Inception v3      | 识别图像中的物体，输出1000种类别。前5个预测错误低至5.6%        | [CoreML](https://coreml.store/inceptionv3)|          [模型下载](https://github.com/ChangweiZhang/Awesome-ONNX-Models) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/InceptionV3) [参考文献](https://arxiv.org/abs/1512.00567) |
+| ResNet50 | 识别图像中的物体，输出1000种类别。前5个预测错误低至7.8%        |   [CoreML](https://coreml.store/resnet50)|       [模型下载](https://github.com/ChangweiZhang/Awesome-ONNX-Models) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/ResNet50) [参考文献](https://arxiv.org/abs/1512.03385)  |
+| TinyYOLO | 识别出图像中多个物体，并输出类别和物体矩形边框数据，用于在图像中圈出物体，可识别物体种类为20种       | [CoreML](https://coreml.store/tinyyolo)|        [模型下载](https://github.com/ChangweiZhang/Awesome-ONNX-Models) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/TinyYOLO) [参考文献](http://machinethink.net/blog/object-detection-with-yolo) |
+| LocationNet | 根据图片预测拍摄地点 |[CoreML](https://coreml.store/rn1015k500)|[模型下载](https://cwonnxstorage.blob.core.windows.net/onnx/RN1015k500.onnx) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/LocationNet) [参考文献](https://aws.amazon.com/blogs/ai/estimating-the-location-of-images-using-mxnet-and-multimedia-commons-dataset-on-aws-ec2) |
+| Fast Netural Style Transfer      | 图片风格转换，支持的艺术家风格有Candy, Feathers, La Muse, Mosica, Scream, Udnie. https://github.com/jcjohnson/fast-neural-style |[CoreML](https://coreml.store/googlenetplaces)|[模型下载](https://github.com/ChangweiZhang/Awesome-ONNX-Models) [Demo](https://github.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/tree/master/src/WindowsML-Demos/FNSSeries) [参考文献](https://cs.stanford.edu/people/jcjohns/eccv16/) |
   
   
 ## ONNX转换工具
@@ -48,17 +50,17 @@ ONNX是由微软、Facebook和英特尔等公司推出的一个通用开放的�
 * [coremltools](https://github.com/apple/coremltools)
 * ONNX 1.2.2
 
-#### Install ONNX
+#### 安装ONNX
 ```
 pip install onnx
 ```
-make sure the verison is 1.2.2
+确保安装的版本是 1.2.2
 
-#### Install Apple coremltools
+#### 安装coremltools
 ```
 pip install git+https://github.com/apple/coremltools
 ```
-#### Install winmltools
+#### 安装winmltools
 ```
 pip install winmltools
 ```
@@ -83,9 +85,13 @@ python onnxgenerator.py
 
 ![model name](https://raw.githubusercontent.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/master/images/step2.png)
 
+优化模型，参数转换为Float16
+
+![Optimize to float16](https://raw.githubusercontent.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/master/images/step3.jpg)
+
 生成ONNX模型后，此时决定是否继续生成json格式的模型文件
 
-![generate json](https://raw.githubusercontent.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/master/images/step3.png)
+![generate json](https://raw.githubusercontent.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/master/images/step4.jpg)
 
 生成的模型文件如下：
 
@@ -96,6 +102,8 @@ python onnxgenerator.py
 src目录中的demo项目中默认是 **<font color=red>没有模型文件的</font>**，此时直接编译会报错失败。
 
 **请直接把下载后的ONNX模型文件放入项目中对应的位置即可**
+
+![LocationNet](https://raw.githubusercontent.com/ChangweiZhang/Awesome-WindowsML-ONNX-Models/master/images/demo.png)
 
 ## 问题反馈
 
