@@ -1,8 +1,9 @@
-﻿using Windows.Media;
+﻿using System;
+using Windows.Media;
 
 namespace WindowsMLDemos.Common.UI
 {
-    public class ImagePreviewReceivedEventArgs
+    public class ImagePreviewReceivedEventArgs : EventArgs
     {
         public VideoFrame PreviewImage { get; set; }
         public bool IsFileImage { get; set; }

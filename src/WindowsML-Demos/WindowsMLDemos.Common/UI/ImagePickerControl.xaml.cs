@@ -89,15 +89,15 @@ namespace WindowsMLDemos.Common.UI
 
 
 
-        public int PreviewInterval
+        public double PreviewInterval
         {
-            get { return (int)GetValue(PreviewIntervalProperty); }
+            get { return (double)GetValue(PreviewIntervalProperty); }
             set { SetValue(PreviewIntervalProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for PreviewInterval.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PreviewIntervalProperty =
-            DependencyProperty.Register("PreviewInterval", typeof(int), typeof(ImagePickerControl), new PropertyMetadata(3));
+            DependencyProperty.Register("PreviewInterval", typeof(double), typeof(ImagePickerControl), new PropertyMetadata(3));
 
 
 
@@ -184,6 +184,8 @@ namespace WindowsMLDemos.Common.UI
                 try
                 {
                     var isWideImage = WideImage;
+                   
+                    await StartPreviewAsync();
                     timer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
                     {
                         if (mediaCapture != null)
@@ -241,7 +243,6 @@ namespace WindowsMLDemos.Common.UI
 
                         }
                     }, TimeSpan.FromSeconds(PreviewInterval));
-                    await StartPreviewAsync();
                 }
                 catch (Exception ex)
                 {

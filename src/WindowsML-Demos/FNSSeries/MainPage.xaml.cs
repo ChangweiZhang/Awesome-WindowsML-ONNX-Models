@@ -1,25 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.AI.MachineLearning;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Media;
 using Windows.Storage;
-using Windows.Storage.Pickers;
-using Windows.Storage.Streams;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 using WindowsMLDemos.Common;
 using WindowsMLDemos.Common.Helper;
 
@@ -99,49 +87,51 @@ namespace FNSSeries
 
         private async Task ApplyEffectAsync(VideoFrame frame)
         {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+              {
+                  if (frame != null)
+                  {
 
-            if (frame != null)
-            {
+                      var imageWidth = frame.SoftwareBitmap != null ? frame.SoftwareBitmap.PixelWidth :
+                                    frame.Direct3DSurface.Description.Width;
+                      var imageHeigth = frame.SoftwareBitmap != null ? frame.SoftwareBitmap.PixelHeight :
+                                 frame.Direct3DSurface.Description.Height;
 
-                var imageWidth = frame.SoftwareBitmap != null ? frame.SoftwareBitmap.PixelWidth :
-                              frame.Direct3DSurface.Description.Width;
-                var imageHeigth = frame.SoftwareBitmap != null ? frame.SoftwareBitmap.PixelHeight :
-                           frame.Direct3DSurface.Description.Height;
+                      model = ModelList.SelectedItem as ModelInfo;
+                      if (model == null)
+                      {
+                          model = models.FirstOrDefault();
+                      }
+                      if (model.Model == null)
+                      {
+                          var modelFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(model.File));
+                          if (modelFile != null)
+                          {
+                              model.Model = new FNSModel();
+                              await MLHelper.CreateModelAsync(modelFile, model.Model);
+                          }
+                      }
+                      var startTime = DateTime.Now;
+                      var output = await model.Model.EvaluateAsync(new FNSInput
+                      {
+                          inputImage = ImageFeatureValue.CreateFromVideoFrame(frame)
+                      }) as FNSOutput;
 
-                model = ModelList.SelectedItem as ModelInfo;
-                if (model == null)
-                {
-                    model = models.FirstOrDefault();
-                }
-                if (model.Model == null)
-                {
-                    var modelFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(model.File));
-                    if (modelFile != null)
-                    {
-                        model.Model = new FNSModel();
-                        await MLHelper.CreateModelAsync(modelFile, model.Model);
-                    }
-                }
-                var startTime = DateTime.Now;
-                var output = await model.Model.EvaluateAsync(new FNSInput
-                {
-                    inputImage = ImageFeatureValue.CreateFromVideoFrame(frame)
-                }) as FNSOutput;
-
-                if (output != null)
-                {
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                    {
-                        previewControl.EvalutionTime = (DateTime.Now - startTime).TotalSeconds.ToString();
-                    });
-                    var sbmp = await ImageHelper.GetImageFromTensorFloatDataAsync(output.outputImage, (uint)imageWidth,
-                        (uint)imageHeigth, frame.SoftwareBitmap.DpiX, frame.SoftwareBitmap.DpiY);
-                    sbmp = SoftwareBitmap.Convert(sbmp, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore);
-                    var tsbs = new SoftwareBitmapSource();
-                    await tsbs.SetBitmapAsync(sbmp);
-                    previewImage.Source = tsbs;
-                }
-            }
+                      if (output != null)
+                      {
+                          await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                          {
+                              previewControl.EvalutionTime = (DateTime.Now - startTime).TotalSeconds.ToString();
+                          });
+                          var sbmp = await ImageHelper.GetImageFromTensorFloatDataAsync(output.outputImage, (uint)imageWidth,
+                              (uint)imageHeigth, frame.SoftwareBitmap.DpiX, frame.SoftwareBitmap.DpiY);
+                          sbmp = SoftwareBitmap.Convert(sbmp, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore);
+                          var tsbs = new SoftwareBitmapSource();
+                          await tsbs.SetBitmapAsync(sbmp);
+                          previewImage.Source = tsbs;
+                      }
+                  }
+              });
         }
     }
 }

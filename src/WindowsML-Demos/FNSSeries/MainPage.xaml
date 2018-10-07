@@ -25,7 +25,7 @@
                                     ImageTargetHeight="720" 
                                     WideImage="True"
                                     ImageTargetWidth="720" 
-                                    PreviewInterval="5" 
+                                    PreviewInterval="1" 
                                     ImagePreviewReceived="ImagePickerControl_ImagePreviewReceived"/>
         </Grid>
     </Grid>
