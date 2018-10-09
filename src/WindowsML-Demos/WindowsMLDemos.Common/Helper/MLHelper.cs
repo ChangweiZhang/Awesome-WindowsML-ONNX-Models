@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.AI.MachineLearning;
-using Windows.AI.MachineLearning.Preview;
 using Windows.Storage;
 
 namespace WindowsMLDemos.Common.Helper
@@ -17,10 +14,19 @@ namespace WindowsMLDemos.Common.Helper
         /// <param name="file"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async static Task CreateModelAsync(StorageFile file, IMachineLearningModel learningModel)
+        public async static Task CreateModelAsync(StorageFile file, IMachineLearningModel learningModel, bool _useCPU = false)
         {
+            LearningModelDevice device = null;
+            if (_useCPU)
+            {
+                device = new LearningModelDevice(LearningModelDeviceKind.Default);
+            }
+            else
+            {
+                device = new LearningModelDevice(LearningModelDeviceKind.DirectXHighPerformance);
+            }
             learningModel.LearningModel = await LearningModel.LoadFromStreamAsync(file);
-            learningModel.Session = new LearningModelSession(learningModel.LearningModel);
+            learningModel.Session = new LearningModelSession(learningModel.LearningModel, device);
             learningModel.Binding = new LearningModelBinding(learningModel.Session);
         }
         /// <summary>
@@ -52,7 +58,7 @@ namespace WindowsMLDemos.Common.Helper
         */
         public static float Sigmoid(float x)
         {
-            return (float)(1 / (1 + MathF.Exp(-x)));
+            return 1 / (1 + MathF.Exp(-x));
         }
 
         /*

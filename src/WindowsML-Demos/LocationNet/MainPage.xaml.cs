@@ -40,51 +40,55 @@ namespace LocationNet
                     if (modelFile != null)
                     {
                         rnModel = new RN1015k500Model();
-                        await MLHelper.CreateModelAsync(modelFile, rnModel);
+                        await MLHelper.CreateModelAsync(modelFile, rnModel,true);
                     }
                 }
-                if (e.PreviewImage != null)
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,async () =>
                 {
-                    var output = await rnModel.EvaluateAsync(new RN1015k500Input
+                    if (e.PreviewImage != null)
                     {
-                        data = ImageFeatureValue.CreateFromVideoFrame(e.PreviewImage)//TensorFloat16Bit.CreateFromArray(new long[] { -1, 3, 224, 224 }, imageData)
-                    }) as RN1015k500Output;
-
-                    if (output != null)
-                    {
-                        var res = output.classLabel.GetAsVectorView().ToArray();
-                        var b = output.softmax_output?.ToList();
-                        if (res.Length > 0)
+                        var output = await rnModel.EvaluateAsync(new RN1015k500Input
                         {
-                            var locationData = res[0].Split('\t');
-                            var city = locationData[0];
-                            var lat = float.Parse(locationData[1]);
-                            var lon = float.Parse(locationData[2]);
-                            var sPoint = new Geopoint(new BasicGeoposition
+                            data = ImageFeatureValue.CreateFromVideoFrame(e.PreviewImage)//TensorFloat16Bit.CreateFromArray(new long[] { -1, 3, 224, 224 }, imageData)
+                        }) as RN1015k500Output;
+
+
+                        if (output != null)
+                        {
+                            var res = output.classLabel.GetAsVectorView().ToArray();
+                            var b = output.softmax_output?.ToList();
+                            if (res.Length > 0)
                             {
-                                Latitude = lat,
-                                Longitude = lon
-                            });
+
+                                var locationData = res[0].Split('\t');
+                                var city = locationData[0];
+                                var lat = float.Parse(locationData[1]);
+                                var lon = float.Parse(locationData[2]);
+                                var sPoint = new Geopoint(new BasicGeoposition
+                                {
+                                    Latitude = lat,
+                                    Longitude = lon
+                                });
 
 
-                            Geopoint pointToReverseGeocode = sPoint;
+                                Geopoint pointToReverseGeocode = sPoint;
 
-                            // Reverse geocode the specified geographic location.
-                            MapLocationFinderResult result =
-                                  await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
+                                // Reverse geocode the specified geographic location.
+                                MapLocationFinderResult result =
+                                      await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
 
-                            // If the query returns results, display the name of the town
-                            // contained in the address of the first result.
-                            if (result.Status == MapLocationFinderStatus.Success)
-                            {
-                                city = result.Locations[0].DisplayName;// + result.Locations[0].Address.FormattedAddress + result.Locations[0].Address.Country;
-                            }
-                            myMap.Center = sPoint;
+                                // If the query returns results, display the name of the town
+                                // contained in the address of the first result.
+                                if (result.Status == MapLocationFinderStatus.Success)
+                                {
+                                    city = result.Locations[0].DisplayName;// + result.Locations[0].Address.FormattedAddress + result.Locations[0].Address.Country;
+                                }
+                                myMap.Center = sPoint;
 
-                            myMap.Layers.Add(new MapElementsLayer
-                            {
-                                ZIndex = 1,
-                                MapElements = new List<MapElement>()
+                                myMap.Layers.Add(new MapElementsLayer
+                                {
+                                    ZIndex = 1,
+                                    MapElements = new List<MapElement>()
                                   {
                                       new MapIcon
                                       {
@@ -96,15 +100,19 @@ namespace LocationNet
                                           Visible= true
                                       }
                                   }
-                            });
+                                });
+                            }
                         }
                     }
-                }
+                });
             }
             catch (Exception ex)
             {
                 await AlertHelper.ShowMessageAsync(ex.ToString());
             }
+            rnModel.Session.Dispose();
+            rnModel.LearningModel.Dispose();
+            rnModel = null;
         }
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
